@@ -2,6 +2,7 @@ twitter        = require 'simple-twitter'
 request        = require 'request'
 {EventEmitter} = require 'events'
 chalk          = require 'chalk'
+express        = require 'express'
 
 class FakeSunTzu
   constructor: ->
@@ -15,6 +16,7 @@ class FakeSunTzu
 
   run: ->
     self = @
+    app  = express()
 
     self.events.on "fetchQuote", (options) ->
       request options, (error, response, body) ->
@@ -31,6 +33,14 @@ class FakeSunTzu
         twitterClient: @twitterClient
       self.events.emit 'fetchQuote', options
     , @tweetInterval
+
+    app.get '/', (req, res) ->
+      res.send 'OK'
+
+    server = app.listen app.listen process.env.PORT or 5000, ->
+      address = server.address().address
+      port    = server.address().port
+      console.log chalk.green "Express server listening on http://" + address + ":" + port
 
 session = new FakeSunTzu
 session.run()
