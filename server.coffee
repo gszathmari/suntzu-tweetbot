@@ -5,7 +5,7 @@ chalk          = require 'chalk'
 
 class FakeSunTzu
   constructor: ->
-    @tweetInterval = 1000*60*60*12 // 12 hours
+    @tweetInterval = 1000*60*60*12  # 12 hours
     @quoteUrl      = process.env.URL
     @events        = new EventEmitter
     @twitterClient = new twitter process.env.CONSUMER_KEY,
