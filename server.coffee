@@ -6,7 +6,8 @@ express        = require 'express'
 
 class FakeSunTzu
   constructor: ->
-    @tweetInterval = 1000*60*60*12
+    @tweetInterval = process.env.TWEET_INTERVAL_HOURS || 12
+    @tweetInterval = @tweetInterval * 1000 * 60 * 60
     @quoteUrl      = process.env.URL
     @events        = new EventEmitter
     @twitterClient = new twitter process.env.CONSUMER_KEY,
