@@ -22,10 +22,17 @@ class FakeSunTzu
       request options, (error, response, body) ->
         if not error and response.statusCode == 200
           self.events.emit "sendTweet", JSON.parse(body).quote, response.request.twitterClient
-
+        else
+          console.log chalk.bgRed 'Error: ' + error.data.toString()
+          
     self.events.on "sendTweet", (tweet, twitterClient) ->
       twitterClient.post 'statuses/update', 'status': tweet, (error, data) ->
-        console.log chalk.bgBlue 'Tweet has been sent successfully' if not error 
+        if not error
+          # Log success to Dead Man's Snitch
+          request.get process.env.DEADMANSSNITCH_URL if process.env.DEADMANSSNITCH_URL
+          console.log chalk.bgBlue 'Tweet has been sent successfully'
+        else
+          console.log chalk.bgRed 'Error: ' + error.data.toString()
         
     setInterval =>
       options =
