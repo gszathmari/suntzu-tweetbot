@@ -9,6 +9,7 @@ class FakeSunTzu
     @tweetInterval = process.env.TWEET_INTERVAL_HOURS || 12
     @tweetInterval = @tweetInterval * 1000 * 60 * 60
     @quoteUrl      = process.env.URL
+    @snitchUrl     = process.env.DEADMANSSNITCH_URL
     @events        = new EventEmitter
     @twitterClient = new twitter process.env.CONSUMER_KEY,
                                  process.env.CONSUMER_SECRET,
@@ -30,7 +31,7 @@ class FakeSunTzu
       twitterClient.post 'statuses/update', 'status': tweet, (error, data) ->
         if not error
           # Log success to Dead Man's Snitch
-          request.get process.env.DEADMANSSNITCH_URL if process.env.DEADMANSSNITCH_URL
+          request.get self.snitchUrl if self.snitchUrl
           console.log chalk.bgBlue 'Tweet has been sent successfully'
         else
           console.log chalk.bgRed 'Error: ' + error.data.toString()
