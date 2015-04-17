@@ -7,6 +7,7 @@
     "chalk": "^1.0.0",
     "coffee-script": "^1.9.1",
     "express": "^4.12.3",
+    "express-healthcheck": "0.0.2",
     "request": "^2.54.0",
     "simple-twitter": "^1.0.7"
   },
