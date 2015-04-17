@@ -12,7 +12,7 @@ Set environmental variables
 * **CONSUMER_SECRET** - Twitter consumer secret
 * **ACCESS_TOKEN** - Twitter access token
 * **ACCESS_SECRET** - Twitter access secret
-* **URL** - URL of [suntzu-generator](https://github.com/gszathmari/suntzu-generator) API
+* **SUNTZU_QUOTE_URL** - URL of [suntzu-generator](https://github.com/gszathmari/suntzu-generator) API
 
 # Miscelleanous
 Healthcheck for Uptime Robot, Pingdom etc.
