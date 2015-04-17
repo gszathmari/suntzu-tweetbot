@@ -8,6 +8,7 @@ class FakeSunTzu
   constructor: ->
     @tweetInterval = process.env.TWEET_INTERVAL_HOURS || 12
     @tweetInterval = @tweetInterval * 1000 * 60 * 60
+    @retryInterval = process.env.TWEET_RETRY_INTERVAL_MINUTES or 5
     @quoteUrl      = process.env.URL
     @snitchUrl     = process.env.DEADMANSSNITCH_URL
     @events        = new EventEmitter
@@ -15,6 +16,9 @@ class FakeSunTzu
                                  process.env.CONSUMER_SECRET,
                                  process.env.ACCESS_TOKEN,
                                  process.env.ACCESS_SECRET
+    @config        =
+      url: @quoteUrl
+      twitterClient: @twitterClient
 
   run: ->
     self = @
@@ -35,12 +39,13 @@ class FakeSunTzu
           console.log chalk.bgBlue 'Tweet has been sent successfully'
         else
           console.log chalk.bgRed 'Error: ' + error.data.toString()
+          console.log chalk.blue 'Retrying in ' + self.retryInterval + ' minutes ...'
+          setTimeout ->
+            self.events.emit 'fetchQuote', self.config
+          , self.retryInterval * 60 * 1000
         
     setInterval =>
-      options =
-        url: @quoteUrl
-        twitterClient: @twitterClient
-      self.events.emit 'fetchQuote', options
+      self.events.emit 'fetchQuote', self.config
     , @tweetInterval
 
     app.get '/', (req, res) ->
