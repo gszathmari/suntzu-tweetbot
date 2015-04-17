@@ -3,7 +3,6 @@ request        = require 'request'
 {EventEmitter} = require 'events'
 chalk          = require 'chalk'
 express        = require 'express'
-healthCheck    = require 'express-healthcheck'
 
 class FakeSunTzu
   constructor: ->
@@ -48,8 +47,6 @@ class FakeSunTzu
     setInterval =>
       self.events.emit 'fetchQuote', self.config
     , @tweetInterval * 60 * 60 * 1000
-
-    app.use '/healthcheck', healthCheck()
 
     app.get '/', (req, res) ->
       res.send 'OK'

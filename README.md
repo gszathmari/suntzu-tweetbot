@@ -19,7 +19,3 @@ Healthcheck for Uptime Robot, Pingdom etc.
 ```bash
 $ curl https://<application>.herokuapp.com/
 ```
-Uptime healthcheck is also available
-```bash
-$ curl https://<application>.herokuapp.com/healthcheck
-```
